@@ -1,5 +1,9 @@
 package com.z.snake.model;
 
+import com.z.snake.utils.DrawUtil;
+
+import java.awt.*;
+
 /**
  * Created by Administrator on 2017/8/9 0009.
  */
@@ -22,4 +26,8 @@ public class Node {
         return y;
     }
 
+
+    public void refresh(Graphics g) {
+        DrawUtil.drawSquare(g, this, Color.BLUE);
+    }
 }

@@ -25,6 +25,10 @@ public class GameView {
         return canvas;
     }
 
+    public GridPanel getGridPanel() {
+        return gridPanel;
+    }
+
     public void createFood() {
         gridPanel.createFood();
     }

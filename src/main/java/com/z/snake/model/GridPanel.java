@@ -28,6 +28,8 @@ public class GridPanel {
         drawBackground(g, Color.BLACK, 0, 0, width, height);
         snake = new Snake();
         snake.init(width, height, g);
+        createFood();
+        DrawUtil.drawCircle(g, food, Color.WHITE);
     }
 
     private void drawBackground(Graphics g, Color color, int x, int y, int width, int height) {
@@ -65,11 +67,13 @@ public class GridPanel {
             }
             if (!hasSame) {
                 food = node;
+                flag = false;
             }
         }
     }
 
     public void refresh(Graphics g) {
-
+        snake.refresh(g);
+        DrawUtil.drawCircle(g, food, Color.WHITE);
     }
 }
