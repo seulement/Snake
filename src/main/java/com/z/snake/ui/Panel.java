@@ -1,6 +1,7 @@
 package com.z.snake.ui;
 
 import com.z.snake.model.GridPanel;
+import com.z.snake.utils.DrawUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,9 +24,7 @@ public class Panel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (gridPanel.getSnake() == null)
-        gridPanel.init(g);
-        logger.info(">>>>>>>gridPanel.init()");
+        DrawUtil.drawSquare(g, Color.BLACK, 0, 0, gridPanel.getWidth(), gridPanel.getHeight());
     }
 
     @Override

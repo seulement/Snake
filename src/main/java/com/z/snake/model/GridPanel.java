@@ -24,12 +24,18 @@ public class GridPanel {
         this.height = height;
     }
 
-    public void init(Graphics g) {
-        drawBackground(g, Color.BLACK, 0, 0, width, height);
+    public void init() {
         snake = new Snake();
-        snake.init(width, height, g);
+        snake.init(width, height);
         createFood();
-        DrawUtil.drawCircle(g, food, Color.WHITE);
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     private void drawBackground(Graphics g, Color color, int x, int y, int width, int height) {

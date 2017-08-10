@@ -1,8 +1,6 @@
 package com.z.snake.ui;
 
 import com.z.snake.controller.GameController;
-import com.z.snake.model.GridPanel;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -38,7 +36,7 @@ public class GameWindow {
 
         win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        win.addKeyListener(new GameController());
+        win.addKeyListener(new GameController(gameView));
 
         win.pack();
 

@@ -20,23 +20,15 @@ public class Snake {
 
     private Direction direction;
 
-    public Node eat(Node node) {
-        return null;
+    private boolean turning = false;
+
+    public void eat(Node node) {
+        body.add(node);
     }
 
-    public void move() {
-        Node temp = null;
-        for (int index = 0; index < body.size(); index ++) {
-            Node node = body.get(index);
-            if (temp == null) {
-                logger.info(">>>>head node:" + JSON.toJSONString(getMoveNode(node)));
-                body.set(index, getMoveNode(node));
-            }else {
-                body.set(index, temp);
-            }
-            temp = new Node(node.getX(), node.getY());
-        }
-        logger.info(">>>>>body move:" + JSON.toJSONString(body));
+    public void move(Node nextNode) {
+        body.add(nextNode);
+        body.remove(0);
     }
 
     public Node getHead() {
@@ -48,15 +40,29 @@ public class Snake {
         return node;
     }
 
+    public void setTurning(boolean turning) {
+        this.turning = turning;
+    }
+
+    public boolean getTurning() {
+        return turning;
+    }
+
     public LinkedList<Node> getBody() {
         return body;
     }
+
+
+    public Direction getDirection() {
+        return direction;
+    }
+
 
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
 
-    public void init(int maxWidth, int maxHeight, Graphics g) {
+    public void init(int maxWidth, int maxHeight) {
 
         if (direction == null) {
             direction = Direction.RIGHT;
@@ -68,16 +74,15 @@ public class Snake {
         Random random = new Random();
         int xPos = random.nextInt(xMax - Constant.DEFAULT_NODE_SIZE * (Constant.DEFAULT_SNAKE_LENGTH + 1)) + Constant.DEFAULT_NODE_SIZE;
         int yPos = random.nextInt(yMax - Constant.DEFAULT_NODE_SIZE * (Constant.DEFAULT_SNAKE_LENGTH + 1)) + Constant.DEFAULT_NODE_SIZE;
-        draw(xPos, yPos, g);
+        createSnake(xPos, yPos);
         logger.info(">>>>>body init:" + JSON.toJSONString(body));
     }
 
-    public void draw(int x, int y, Graphics g) {
+    public void createSnake(int x, int y) {
         for (int i = 0; i < Constant.DEFAULT_SNAKE_LENGTH; i ++) {
             int nodeX = x + i * Constant.DEFAULT_NODE_SIZE;
             Node node = new Node(nodeX / Constant.DEFAULT_NODE_SIZE, y / Constant.DEFAULT_NODE_SIZE);
             body.add(node);
-            DrawUtil.drawSquare(g, node, Color.BLUE);
         }
     }
 
@@ -87,7 +92,8 @@ public class Snake {
         }
     }
 
-    public Node getMoveNode(Node node) {
+    public Node getMoveNode() {
+        Node node = body.getLast();
         int x = node.getX();
         int y = node.getY();
         switch (direction) {
@@ -104,6 +110,24 @@ public class Snake {
                 x = x + 1;
                 break;
         }
-        return new Node(x, y);
+        Node nextNode = new Node(x, y);
+        return nextNode;
+    }
+
+    public boolean check(int width, int height) {
+        Node node = body.getLast();
+        if (node.getX() < 0 || node.getX() >= width / Constant.DEFAULT_NODE_SIZE
+                || node.getY() < 0 || node.getY() >= height / Constant.DEFAULT_NODE_SIZE) {
+            return false;
+        }
+        for (Node bNode : body) {
+            if (bNode == node) {
+                continue;
+            }
+            if (bNode.getX() == node.getX() && bNode.getY() == node.getY()) {
+                return false;
+            }
+        }
+        return true;
     }
 }
